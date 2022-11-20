@@ -13,16 +13,14 @@ export class DayWeek {
         if(!this.isValidDate(this.day, this.month, this.year)) return 'Invalid date'
         
         // ref: Gauss's algorithm and Tomohiko Sakamoto’s
-        // if the month were January or February, we subtracted 1 from the year. 
-        // This means that during these months, the y/4 value would be that of the previous year and would not be counted. 
-        // If we subtract 1 from the t[] values of every month after February? 
-        const t = [
+        // If we subtract 1 from the offsetDay[] values of every month after February? 
+        const offsetDay = [
             0, 3, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4 
         ];
         // If the month is not Jan or Feb, we do not count the 29th Feb (if it exists) of the given year.
         this.year -= (this.month < 3) ? 1 : 0;
-        // this formula mention about leap year and add the day of the month and an offset t[] that depends on the month
-        let day = Math.floor(( this.year + this.year/4 - this.year/100 + this.year/400 + t[this.month - 1] + this.day) % 7); 
+        // Y / 4 – Y / 100 + Y / 400 this formula about cases of leap years
+        let day = Math.floor(( this.year + this.year/4 - this.year/100 + this.year/400 + offsetDay[this.month - 1] + this.day) % 7); 
 
         return daysOfWeek[day];
         
